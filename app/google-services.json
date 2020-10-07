@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "480411700276",
+    "firebase_url": "https://serafello-chat.firebaseio.com",
+    "project_id": "serafello-chat",
+    "storage_bucket": "serafello-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480411700276:android:03b839629f9031b7cace61",
+        "android_client_info": {
+          "package_name": "com.example.serafellochat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "480411700276-79vob8s6ous1d9trm5dr37706djclf3n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.serafellochat",
+            "certificate_hash": "a25b46fe445ce9798fd390ed3a9350d5263f8bda"
+          }
+        },
+        {
+          "client_id": "480411700276-lgdd3b44uqcbv43tgl3c6fe1m5n218rb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcvyFp4VrtRenSsMO1UTydR3vDIUF3Ae8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "480411700276-lgdd3b44uqcbv43tgl3c6fe1m5n218rb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
