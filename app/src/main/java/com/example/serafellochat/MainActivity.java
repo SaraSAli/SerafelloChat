@@ -21,6 +21,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.example.serafellochat.R.id;
 import com.example.serafellochat.fragments.ChatsFragment;
+import com.example.serafellochat.fragments.ProfileFragment;
 import com.example.serafellochat.fragments.UsersFragment;
 import com.example.serafellochat.model.Users;
 import com.google.android.material.tabs.TabLayout;
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
         viewPagerAdapter.addFragment(new UsersFragment(), "Users");
+        viewPagerAdapter.addFragment(new ProfileFragment(), "Profile");
 
         mViewPager.setAdapter(viewPagerAdapter);
         mTablayout.setupWithViewPager(mViewPager);
@@ -124,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                         FirebaseAuth.getInstance().signOut();
                         Intent i = new Intent(MainActivity.this, LoginActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(i);
+                        startActivity(i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                     }
                 });
 
@@ -179,21 +181,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void status(String status) {
-        String saveCurrentTime, saveCurrentDate;
-        Calendar calendar = Calendar.getInstance();
 
-        SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, YYYY");
-        saveCurrentDate = currentDate.format(calendar.getTime());
-
-        SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
-        saveCurrentTime = currentTime.format(calendar.getTime());
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("UserState").child(firebaseUser.getUid());
+        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid());
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("status", status);
-        hashMap.put("time", saveCurrentTime);
-        hashMap.put("date", saveCurrentDate);
 
         databaseReference.updateChildren(hashMap);
     }
