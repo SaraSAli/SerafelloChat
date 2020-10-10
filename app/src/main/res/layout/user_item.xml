@@ -21,4 +21,15 @@
         android:layout_toEndOf="@id/profile_picture"
         android:text="Username"
         android:textSize="20sp"/>
+    
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:id="@+id/img_on"
+        android:src="@drawable/ic_online"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/username"
+        android:layout_marginLeft="-15dp"
+        android:layout_toRightOf="@id/profile_picture"/>
+    
 </RelativeLayout>

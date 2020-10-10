@@ -21,7 +21,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.example.serafellochat.R.id;
 import com.example.serafellochat.fragments.ChatsFragment;
-import com.example.serafellochat.fragments.ProfileFragment;
 import com.example.serafellochat.fragments.UsersFragment;
 import com.example.serafellochat.model.Users;
 import com.google.android.material.tabs.TabLayout;
@@ -33,9 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -65,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == id.setting) {
+                    Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
                 if (item.getItemId() == id.logout) {
                     alertLogout();
                     return true;
@@ -80,7 +82,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Users user = snapshot.getValue(Users.class);
+
                 username.setText(user.getUsername());
+
                 if (user.getImage().equals("default")) {
                     profilePicture.setImageResource(R.drawable.profile_picture);
                 } else {
@@ -103,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
         viewPagerAdapter.addFragment(new UsersFragment(), "Users");
-        viewPagerAdapter.addFragment(new ProfileFragment(), "Profile");
 
         mViewPager.setAdapter(viewPagerAdapter);
         mTablayout.setupWithViewPager(mViewPager);
