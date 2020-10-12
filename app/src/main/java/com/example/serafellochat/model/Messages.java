@@ -2,10 +2,20 @@ package com.example.serafellochat.model;
 
 public class Messages {
     private String message;
-    private long time;
-    private boolean seen;
+    private boolean isseen;
     private String receiver;
     private String sender;
+
+    public Messages(String sender, String receiver, String message, boolean isseen) {
+        this.sender = sender;
+        this.receiver = receiver;
+        this.message = message;
+        this.isseen = isseen;
+    }
+
+    public Messages() {
+
+    }
 
     public String getSender() {
         return sender;
@@ -13,26 +23,6 @@ public class Messages {
 
     public void setSender(String sender) {
         this.sender = sender;
-    }
-
-    private int type;
-
-    public Messages(){
-
-    }
-
-    public Messages(String message, String receiver, String sender) {
-        this.message = message;
-        this.receiver = receiver;
-        this.sender = sender;
-    }
-
-    public Messages(String message, int type, long time, boolean seen, String from) {
-        this.message = message;
-        this.type = type;
-        this.time = time;
-        this.seen = seen;
-        this.receiver = from;
     }
 
     public String getMessage() {
@@ -43,10 +33,6 @@ public class Messages {
         this.message = message;
     }
 
-    public int getType() {
-        return type;
-    }
-
     public String getReceiver() {
         return receiver;
     }
@@ -55,23 +41,11 @@ public class Messages {
         this.receiver = receiver;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public boolean isIsseen() {
+        return isseen;
     }
 
-    public long getTime() {
-        return time;
-    }
-
-    public void setTime(long time) {
-        this.time = time;
-    }
-
-    public boolean isSeen() {
-        return seen;
-    }
-
-    public void setSeen(boolean seen) {
-        this.seen = seen;
+    public void setIsseen(boolean isseen) {
+        this.isseen = isseen;
     }
 }

@@ -15,6 +15,8 @@ import com.example.serafellochat.R;
 import com.example.serafellochat.model.Messages;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -37,10 +39,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @NonNull
     @Override
     public MessageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(viewType==MSG_TYPE_RIGHT) {
+        if (viewType == MSG_TYPE_RIGHT) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_right, parent, false);
             return new MessageAdapter.ViewHolder(view);
-        }else{
+        } else {
             View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_left, parent, false);
             return new MessageAdapter.ViewHolder(view);
         }
@@ -48,13 +50,23 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
-        Messages message=messages.get(position);
+        Messages message = messages.get(position);
         holder.showMessage.setText(message.getMessage());
 
-        if(imageurl.equals("default")){
+        if (imageurl.equals("default")) {
             holder.profilePicture.setImageResource(R.drawable.profile_picture);
-        }else{
+        } else {
             Glide.with(mContext).load(imageurl).into(holder.profilePicture);
+        }
+
+        if (position == messages.size() - 1) {
+            if (message.isIsseen()) {
+                holder.textSeen.setText("Seen");
+            } else {
+                holder.textSeen.setText("Delivered");
+            }
+        } else {
+            holder.textSeen.setVisibility(View.GONE);
         }
     }
 
@@ -68,12 +80,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         public TextView showMessage;
         public ImageView profilePicture;
+        public TextView textSeen;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             showMessage = itemView.findViewById(R.id.show_message);
             profilePicture = itemView.findViewById(R.id.profile_picture);
+            textSeen = itemView.findViewById(R.id.text_seen);
         }
     }
 
@@ -82,8 +96,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (messages.get(position).getReceiver().equals(firebaseUser.getUid())) {
             return MSG_TYPE_LEFT;
-        }
-        else{
+        } else {
             return MSG_TYPE_RIGHT;
         }
     }

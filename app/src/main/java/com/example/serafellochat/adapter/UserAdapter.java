@@ -15,6 +15,9 @@ import com.bumptech.glide.Glide;
 import com.example.serafellochat.MessageActivity;
 import com.example.serafellochat.R;
 import com.example.serafellochat.model.Users;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -47,15 +50,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             Glide.with(mContext).load(user.getImage()).into(holder.profilePicture);
         }
 
-        /*if (isChat) {
-            if (user.getStatus().equals("online")) {
+        if (isChat) {
+            System.out.println("Info: " + user.getStatus());
+            if ((user.getStatus() != null) && (user.getStatus().equals("online"))) {
+                //if (FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("status").equals("online")) {
                 holder.imageOn.setVisibility(View.VISIBLE);
             } else {
-                holder.imageOn.setVisibility(View.INVISIBLE);
+                holder.imageOn.setVisibility(View.GONE);
             }
         } else {
-            holder.imageOn.setVisibility(View.INVISIBLE);
-        }*/
+            holder.imageOn.setVisibility(View.GONE);
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

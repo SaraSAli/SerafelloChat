@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == id.setting) {
-                    Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
                     startActivity(intent);
                     return true;
                 }
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 if (user.getImage().equals("default")) {
                     profilePicture.setImageResource(R.drawable.profile_picture);
                 } else {
-                    Glide.with(MainActivity.this).load(user.getImage()).into(profilePicture);
+                    Glide.with(getApplicationContext()).load(user.getImage()).into(profilePicture);
                 }
             }
 

@@ -1,19 +1,20 @@
 package com.example.serafellochat.model;
 
 public class Users {
-    private String status;
+    private String status; //online or offline
     private String username;
     private String image;
     private String id;
 
-    public Users() {
-    }
-
-    public Users(String status, String username, String image, String id) {
-        this.status = status;
+    public Users(String id, String username, String image, String status) {
+        this.id = id;
         this.username = username;
         this.image = image;
-        this.id = id;
+        this.status = status;
+    }
+
+    public Users() {
+
     }
 
     public String getStatus() {
