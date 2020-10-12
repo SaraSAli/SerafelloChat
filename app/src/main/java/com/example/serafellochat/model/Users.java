@@ -5,16 +5,26 @@ public class Users {
     private String username;
     private String image;
     private String id;
+    private String search;
 
-    public Users(String id, String username, String image, String status) {
+    public Users(String id, String username, String image, String status, String search) {
         this.id = id;
         this.username = username;
         this.image = image;
         this.status = status;
+        this.search = search;
     }
 
     public Users() {
 
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
     }
 
     public String getStatus() {

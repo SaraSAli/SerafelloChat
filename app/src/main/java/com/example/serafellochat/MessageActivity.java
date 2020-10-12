@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.serafellochat.adapter.MessageAdapter;
-import com.example.serafellochat.adapter.UserAdapter;
 import com.example.serafellochat.model.Messages;
 import com.example.serafellochat.model.Users;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,6 +48,7 @@ public class MessageActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     Intent intent;
+    String userID;
 
     ValueEventListener seenListener;
 
@@ -79,7 +79,7 @@ public class MessageActivity extends AppCompatActivity {
         sendButton = findViewById(R.id.sendBtn);
 
         intent = getIntent();
-        final String userID = intent.getStringExtra("userid");
+        userID = intent.getStringExtra("userid");
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -105,7 +105,7 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
-        sendMessage(userID);
+        seenMessage(userID);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +121,7 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
-    private void sendMessage(final String userID) {
+    private void seenMessage(final String userID) {
         reference = FirebaseDatabase.getInstance().getReference("Chats");
         seenListener = reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -154,6 +154,23 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("isseen", false);
 
         reference.child("Chats").push().setValue(hashMap);
+
+        final DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("ChatList")
+                .child(firebaseUser.getUid())
+                .child(userID);
+        chatRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists()) {
+                    chatRef.child("id").setValue(userID);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
