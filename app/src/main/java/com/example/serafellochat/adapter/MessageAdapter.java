@@ -1,6 +1,7 @@
 package com.example.serafellochat.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
     private Context mContext;
@@ -50,8 +55,26 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
+
         Messages message = messages.get(position);
-        holder.showMessage.setText(message.getMessage());
+        String timeStamp = message.getTime();
+        String messageType = message.getType();
+
+//        System.out.println("type " + messageType + " position " + position);
+
+        if ("text".equals(messageType)) {
+            holder.showMessage.setVisibility(View.VISIBLE);
+            holder.imageMessageView.setVisibility(View.GONE);
+            holder.showMessage.setText(message.getMessage());
+        } else {
+            holder.showMessage.setVisibility(View.GONE);
+            holder.imageMessageView.setVisibility(View.VISIBLE);
+            Picasso.get().load(message.getMessage()).placeholder(R.drawable.backround_right).into(holder.imageMessageView);
+        }
+
+      /*  Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(Long.parseLong(timeStamp));
+        String dateTime = DateFormat.format("dd/MM/yyyy hh:mm aa", cal).toString();*/
 
         if (imageurl.equals("default")) {
             holder.profilePicture.setImageResource(R.drawable.profile_picture);
@@ -79,7 +102,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView showMessage;
-        public ImageView profilePicture;
+        public ImageView profilePicture, imageMessageView;
         public TextView textSeen;
 
         public ViewHolder(View itemView) {
@@ -87,6 +110,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
             showMessage = itemView.findViewById(R.id.show_message);
             profilePicture = itemView.findViewById(R.id.profile_picture);
+            imageMessageView = itemView.findViewById(R.id.image_message);
             textSeen = itemView.findViewById(R.id.text_seen);
         }
     }

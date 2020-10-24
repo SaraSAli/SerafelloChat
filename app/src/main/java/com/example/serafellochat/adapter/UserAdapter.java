@@ -119,13 +119,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     Messages message = dataSnapshot.getValue(Messages.class);
                     assert message != null;
                     if (message.getReceiver().equals(firebaseUser.getUid()) && message.getSender().equals(userID)) {
-                        theLastMessage = message.getMessage();
+                        if (message.getType().equals("image"))
+                            theLastMessage = "Sent a photo...";
+                        else
+                            theLastMessage = message.getMessage();
                         if (!message.isIsseen())
                             lastMsg.setTypeface(null, Typeface.BOLD);
                         else
                             lastMsg.setTypeface(null, Typeface.NORMAL);
                     } else if (message.getReceiver().equals(userID) && message.getSender().equals(firebaseUser.getUid())) {
-                        theLastMessage = message.getMessage();
+                        if ("image".equals(message.getType()))
+                            theLastMessage = "Sent a photo...";
+                        else
+                            theLastMessage = message.getMessage();
                         lastMsg.setTypeface(null, Typeface.NORMAL);
                     }
 
