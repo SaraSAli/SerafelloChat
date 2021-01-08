@@ -7,7 +7,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -158,8 +157,9 @@ public class MessageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 notify = true;
                 String msg = textSend.getText().toString();
+                String time = String.valueOf(System.currentTimeMillis());
                 if (!msg.equals("")) {
-                    sendMessage(firebaseUser.getUid(), userID, msg);
+                    sendMessage(firebaseUser.getUid(), userID, msg ,time);
                 } else {
                     Toast.makeText(MessageActivity.this, "You can't send empty message", Toast.LENGTH_SHORT).show();
                 }
@@ -313,7 +313,7 @@ public class MessageActivity extends AppCompatActivity {
         }
     }
 
-    private void sendMessage(String sender, final String receiver, String message) {
+    private void sendMessage(String sender, final String receiver, String message ,String time) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
         HashMap<String, Object> hashMap = new HashMap<>();
@@ -322,6 +322,7 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("message", message);
         hashMap.put("type", "text");
         hashMap.put("isseen", false);
+        hashMap.put("time", time);
 
         reference.child("Chats").push().setValue(hashMap);
 

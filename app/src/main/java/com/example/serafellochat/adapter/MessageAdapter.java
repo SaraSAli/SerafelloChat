@@ -21,7 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -57,9 +59,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
 
         Messages message = messages.get(position);
-        String timeStamp = message.getTime();
+        String messageTime = message.getTime();
         String messageType = message.getType();
 
+        if (message.getTime() != null && !message.getTime().trim().equals("")) {
+            holder.messageTime.setText(holder.convertTime(messageTime));
+        }
 //        System.out.println("type " + messageType + " position " + position);
 
         if ("text".equals(messageType)) {
@@ -103,7 +108,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         public TextView showMessage;
         public ImageView profilePicture, imageMessageView;
-        public TextView textSeen;
+        public TextView textSeen, messageTime;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -112,7 +117,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             profilePicture = itemView.findViewById(R.id.profile_picture);
             imageMessageView = itemView.findViewById(R.id.image_message);
             textSeen = itemView.findViewById(R.id.text_seen);
+            messageTime = itemView.findViewById(R.id.time_tv);
         }
+
+        public String convertTime(String time) {
+            SimpleDateFormat formatter = new SimpleDateFormat("h:mm a");
+            String dateString = formatter.format(new Date(Long.parseLong(time)));
+            return dateString;
+        }
+
     }
 
     @Override
