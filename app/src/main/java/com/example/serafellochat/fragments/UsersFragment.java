@@ -64,6 +64,7 @@ public class UsersFragment extends Fragment {
 
             }
         });
+
         return view;
     }
 
@@ -109,13 +110,13 @@ public class UsersFragment extends Fragment {
                         assert firebaseUser != null;
                         assert user != null;
 
-                        if (!(user.getId().equals(firebaseUser.getUid())))
+                        if (user != null && user.getId() != null && !user.getId().equals(firebaseUser.getUid()))
                             mUsers.add(user);
                     }
+                }
                     userAdapter = new UserAdapter(getContext(), mUsers, false);
                     recyclerView.setAdapter(userAdapter);
                 }
-            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
