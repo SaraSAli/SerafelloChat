@@ -55,7 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/time_tv"
-            android:layout_toLeftOf="@id/image_message"
+            android:layout_toLeftOf="@id/text_seen"
+            android:layout_below="@+id/show_message"
             android:text="Time" />
 
     </RelativeLayout>
